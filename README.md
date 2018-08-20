@@ -16,7 +16,7 @@ PoLyEOS is a Python script with the following dependencies:
 Python version 3.5 or higher :: PyQt5 or PyQt4:: matplotlib :: numpy :: scipy :: uncertainties. 
 The program is available for download from GitHub. To launch the program, run Main.py. 
 
-##**Usage**
+## **Usage**
 Executing Main.py brings up the screen shown as Figure 1.
 The run consists of going through a series of steps, which are:
 1.	Enter the elasticity tensor (not needed if the user already has the bulk and shear moduli).
