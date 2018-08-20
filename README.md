@@ -23,4 +23,5 @@ The run consists of going through a series of steps, which are:
 2.	Select an EOS and enter thermodynamics data (the example here uses forsterite).
 3.	Enter depth, pressure and temperature at which calculated results are wanted. 
 4.	Run the program.
+
 There is no necessary order for steps 1 to 3.
