@@ -212,7 +212,9 @@ class FigureCanvasSplitter(QSplitter):
         layout.addWidget(self.com1)
         self.addWidget(layout)
         
-        
+    def New(self):
+        self.canvas.ax.cla()
+        #self.canvas.ax.draw()
 
 
 if __name__ == "__main__":
@@ -223,6 +225,6 @@ if __name__ == "__main__":
     #from Mineral_Physics.Solidsolution import c2c ,CF,Cpx,Gt,Aki,Wus,O,Opx,Pl,Ppv,Pv,Ring,Sp,Wad
     #qapp = QApplication(sys.argv)
     GUI =FigureCanvasSplitter()
-    #GUI.canvas.DrawFill()
+    GUI.canvas.DrawFill()
     GUI.show()
     app.exec_()

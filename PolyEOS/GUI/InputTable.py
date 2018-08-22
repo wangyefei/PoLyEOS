@@ -46,7 +46,15 @@ class InputTable(TableWidgetCustom):
             self.setItem(2,0,QTableWidgetItem('660'))
             self.setItem(2,1,QTableWidgetItem('17.0'))
             self.setItem(2,2,QTableWidgetItem('1800'))
-    
+            
+    def New(self):
+        rowcount = self.rowCount()
+        for row in range(rowcount):
+             for col in range(6):
+                 self.setItem(row,col,QTableWidgetItem(' '))
+        
+        
+        
     def GetData(self):
         rowcount = self.rowCount()
         self.Depth=np.zeros(rowcount)  -1
@@ -54,16 +62,19 @@ class InputTable(TableWidgetCustom):
         self.Temperature=np.zeros(rowcount) -1
         for row in range(rowcount):
             if not isinstance((self.item(row,0)),type(None)): 
-                self.Depth[row] = float(self.item(row, 0).text())
+                if  self.item(row, 0).text() !=  ' ':
+                    self.Depth[row] = float(self.item(row, 0).text())
             else:
                 pass
             if not isinstance((self.item(row,1)),type(None)): 
-                self.Temperature[row] = float(self.item(row, 1).text())   
+                if  self.item(row, 0).text() !=  ' ':
+                    self.Temperature[row] = float(self.item(row, 1).text())   
             else:
                 pass 
                
             if not isinstance((self.item(row,2)),type(None)): 
-                self.Pressure[row] = float(self.item(row, 2).text())
+                if  self.item(row, 0).text() !=  ' ':
+                    self.Pressure[row] = float(self.item(row, 2).text())
             else:
                 pass 
         D = [];P=[];T=[]

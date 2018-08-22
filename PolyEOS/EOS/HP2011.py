@@ -81,9 +81,9 @@ def HP_G(Pressure,Temperature,params,Tr=298.,return_Rho=False):
     f = 0.5 * (pow(r, 2. / 3.) - 1.0)               
     #G=self.params['G(Pa)'] + (Temperature-Tr)*self.params['Gprime_0T'] + Pressure*self.params["G'"]
     G=(1+2.*f)**(5./2.)*(params['G_0 (GPa)']+(3.*params['K_0 (GPa)']*params["G'"]-5.*params['G_0 (GPa)'])*f+(6.*params['K_0 (GPa)']*params["G'"]-24.*params['K_0 (GPa)']-14.*params['G_0 (GPa)']+4.5*params['K_0 (GPa)']*params["K'"])*f*f)#-ets*(EthVT)*rho        
-    #Rho =params['molar_mass']/V
+    Rho =params['molar_mass']/V
     if return_Rho:
-        return G,params['Rho (kg/m³)']/1000.
+        return G,Rho/1000.
     else:
         return G
     

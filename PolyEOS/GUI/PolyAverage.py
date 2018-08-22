@@ -186,10 +186,18 @@ class GUI_polyaverage(QWidget):
         self.setLayout(layout)
         self.setGeometry(300, 300, 400, 400)
         self.setWindowTitle('Elastic properties')
+        
+    def New(self):
+        for i in range(6):
+            for j in range(6):
+                self.table.setItem(i,j,QTableWidgetItem('0(0)'))
+
+        self.text.setText(' ')
+        self.update()        
    
     def calculate(self):
         self.table.GetData()
-        print ('getdata')
+        #print ('getdata')
         c = self.table.c
         try:
             s = c.I
@@ -203,7 +211,7 @@ class GUI_polyaverage(QWidget):
                 return True
             else:
                 return False  
-        print ('inverse')
+        #print ('inverse')
         s = np.array(s)
         c = np.array(c)
         self.c = c

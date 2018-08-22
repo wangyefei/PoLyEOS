@@ -165,7 +165,7 @@ class TableWidgetCustom(QTableWidget):
             a,b = float(aa[0]),0
         return ufloat(a,b)                
 
-                
+                    
         
         
         

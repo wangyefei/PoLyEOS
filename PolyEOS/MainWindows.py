@@ -85,19 +85,27 @@ class MainWindow(QMainWindow):
                                           #shortcut=QKeySequence.New,
                                           icon=os.path.join(os.getcwd(), 'GUI','image', 'Run.png'),
                                           tip ="Run the file")        
+        self.filePlotAction = self.CreateAction(text="&Plot...", slot=self.Plot,
+                                          #shortcut=QKeySequence.,
+                                          icon=os.path.join(os.getcwd(), 'GUI','image', 'Plot.png'),
+                                          tip ="Plot")       
+        self.fileExportAction = self.CreateAction(text="&Export result...", slot=self.fileExport,
+                                          #shortcut=QKeySequence.,
+                                          icon=os.path.join(os.getcwd(), 'GUI','image', 'export.png'),
+                                          tip ="Export result")            
         self.fileMenu = self.menuBar().addMenu("&File")       
         self.fileMenu.addAction(self.fileNewAction)
         self.fileMenu.addAction(self.fileRunAction)    
+        self.fileMenu.addAction(self.filePlotAction)    
+        self.fileMenu.addAction(self.fileExportAction)   
         
     def fileNew(self):
-        fileName = QFileDialog.getOpenFileName(self, 'Open file', '/home')
-        if PYQT == 5:
-            fileName = fileName[0]
-        else:
-            pass
-        if fileName:
-            file1 = open(fileName,'r')
-            file1.close()
+        self.inputtable.New()
+        self.dockwidget.New()
+        self.polyaverage.New()
+        self.figure.New()
+        self.figure.canvas.draw()
+    
 
     def GetParams(self):
         self.dockwidget.tabs.currentWidget().GetParams()
@@ -186,8 +194,32 @@ class MainWindow(QMainWindow):
         #print ('dond')
         self.Plot()
         self.update()
-                    
-    
+        
+    def fileExport(self):
+        options = QFileDialog.Options()
+        fileName = QFileDialog.getSaveFileName(self,"QFileDialog.getSaveFileName()","","All Files (*);;Text Files (*.txt)", options=options)
+        if PYQT == 5:
+            fileName = fileName[0]
+        else:
+            pass
+        if fileName:     
+             file1 = open(fileName,'w')
+             for key, value in self.params.items():
+                 #print (key,value)
+                 file1.write(key);file1.write(':');file1.write(str(value));file1.write('\n')
+             file1.write('D(km),  P(GPa),   T(K),   Vp(km/s), std,  Vs(Km/s),  std,  Rho(Kg/m3), std' )
+             file1.write('\n')                 
+             for i in range(len(self.Depth)):
+                 file1.write(str(self.Depth[i]));file1.write('   ')
+                 file1.write(str(self.Pressure[i]));file1.write('   ')
+                 file1.write(str(self.Temperature[i]));file1.write('   ')
+                 file1.write(str(self.Temperature[i]));file1.write('   ')
+                 file1.write('{:.4}'.format(self.Vp[i]));file1.write('  ');file1.write('{:.4}'.format(self.Vpstd[i]));file1.write('  ')
+                 file1.write('{:.4}'.format(self.Vs[i]));file1.write('  ');file1.write('{:.4}'.format(self.Vsstd[i]));file1.write('  ')
+                 file1.write('{:.4}'.format(self.Rho[i]));file1.write('  ');file1.write('{:.4}'.format(self.Rhostd[i]));file1.write('  ')
+                 file1.write('\n')
+             file1.close()
+        
     ### Manu Bar Edit        
     def ManuBarEdit(self):
         self.editMenu = self.menuBar().addMenu("&Edit")    
@@ -208,8 +240,6 @@ class MainWindow(QMainWindow):
         self.inputtable.setMinimumWidth(0.24*self.width())
         self.mdi.addSubWindow(self.inputtable)
         self.inputtable.show()
-
-
  
     def CreatFigure(self):
         self.figure = FigureCanvasSplitter()
@@ -282,6 +312,8 @@ class MainWindow(QMainWindow):
         self.fileToolbar.setObjectName("FileToolBar")
         self.AddActions(self.fileToolbar, [self.fileNewAction])
         self.AddActions(self.fileToolbar, [self.fileRunAction])
+        self.AddActions(self.fileToolbar, [self.filePlotAction])
+        self.AddActions(self.fileToolbar, [self.fileExportAction])
     
     def ToolBarEdit(self):    
         self.editToolbar = self.AddToolBar("Edit")
@@ -304,10 +336,10 @@ class MainWindow(QMainWindow):
         self.dock = QDockWidget("EOS",self)
         a = HPInput()
         b = SLBInput()
-        c = GUI_polyaverage()
+        self.polyaverage = GUI_polyaverage()
         self.dockwidget = TabTable(parent=self,HP_EOS = a,SLB_EOS=b)
         self.dock.setWidget(self.dockwidget)
-        self.dock1.setWidget(c)
+        self.dock1.setWidget(self.polyaverage)
         self.addDockWidget(Qt.LeftDockWidgetArea,self.dock1)
         self.addDockWidget(Qt.LeftDockWidgetArea,self.dock)
         self.dock1.setMinimumSize(QSize(350,400))

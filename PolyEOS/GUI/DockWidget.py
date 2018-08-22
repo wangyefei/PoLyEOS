@@ -5,7 +5,7 @@ Created on Mon Aug 13 13:10:42 2018
 @author: wangf
 """
 try:
-    from PyQt5.QtWidgets import  QWidget,QVBoxLayout,QTabWidget
+    from PyQt5.QtWidgets import  QWidget,QVBoxLayout,QTabWidget,QTableWidgetItem
 except:
     from PyQt4.QtCore import *
     from PyQt4.QtGui import *
@@ -37,6 +37,9 @@ class TabTable(QWidget):
         self.layout.addWidget(self.tabs)
         self.setLayout(self.layout)
  
+    
+    def New(self):
+        self.tabs.currentWidget().New()
 """
     params = {
             'V_0': ufloat(8.826,0.1),
@@ -71,10 +74,15 @@ class HPInput(TableWidgetCustom):
                       'G_0 (GPa)',"G'",'a_0 (1/K)','S_0 J/(K*mol)']     
         params = ['fo','Mg2SiO4','4.366e-05(1e-6)','3210(1)','127(1)','4.1(0.1)','0.0127(0.001)',\
                   '81.(5)','1.21(0.1)','0.36981e-5(1e-6)','198.0(10)']
+        self.row = len(paramslist)
         self.createTable(row=len(paramslist),col=2)
         self.paramsSet(paramslist = paramslist)
         self.paramsData(params = params)
         self.setHorizontalHeaderLabels(['name','value'])
+        
+    def New(self):
+        for row in range((self.row)):
+            self.setItem(row,1, QTableWidgetItem("0(0)"))
 
 class SLBInput(TableWidgetCustom):
     """
@@ -87,12 +95,17 @@ class SLBInput(TableWidgetCustom):
         paramslist = ['Name','Formula','V_0 (cm³/mol)','K_0 (GPa)',"K'","K''",\
                       'G_0 (GPa)',"G'",'Debye_0 (K)','grueneisen_0','q_0','eta_s_0']
         params = ['fo','Mg2SiO4','4.366e-05(1e-6)','127(1)','4.1(0.1)','0.0127(0.001)',\
-                  '81.(5)','1.21(0.1)','809.(10)','0.99282(0.1)','2.1(0.1)','2.2(0.1)']    
+                  '81.(5)','1.21(0.1)','809.(10)','0.99282(0.1)','2.1(0.1)','2.2(0.1)']  
+        self.row = len(paramslist)
         self.createTable(row=len(paramslist),col=2)
         self.paramsSet(paramslist=paramslist)
         self.paramsData(params = params)
         self.setHorizontalHeaderLabels(['name','value'])
-    
+
+
+    def New(self):
+        for row in range((self.row)):
+            self.setItem(row,1, QTableWidgetItem("0(0)"))    
 
 if __name__ == "__main__":
     import sys
